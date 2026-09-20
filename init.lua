@@ -131,6 +131,11 @@ do
 
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+  -- pokaz symbole w tym pliku
+  vim.keymap.set('n', '<leader>so', '<cmd>Telescope lsp_document_symbols<CR>', {
+    desc = 'Search symbols in current file',
+  })
+
   -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
   -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
   -- is not what someone will guess without a bit more experience.
@@ -420,13 +425,13 @@ do
   }
 
   -- run gofmt on file save
-  vim.api.nvim_create_autocmd('BufWritePre', {
-    pattern = '*.go',
-
-    callback = function()
-      require('go.format').goimport()
-    end,
-  })
+  -- vim.api.nvim_create_autocmd('BufWritePre', {
+  --   pattern = '*.go',
+  --
+  --   callback = function()
+  --     require('go.format').goimport()
+  --   end,
+  -- })
 
   vim.pack.add({
   {
@@ -961,6 +966,14 @@ end
 do
   -- k - otwiera ostrzezenie/blad
   vim.keymap.set('n', 'k', '<cmd> lua vim.diagnostic.open_float() <CR>')
+
+  -- Move current line
+  vim.keymap.set('n', '<A-down>', ':m .+1<CR>==', { desc = 'Move line down' })
+  vim.keymap.set('n', '<A-up>', ':m .-2<CR>==', { desc = 'Move line up' })
+
+  -- Move selected block
+  vim.keymap.set('v', '<A-down>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+  vim.keymap.set('v', '<A-up>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
